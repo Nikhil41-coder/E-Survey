@@ -1,36 +1,39 @@
 # E-Survey
 
-Complete family-tree app: animated landing page, private password-protected accounts, saved household records, both-parent connections, and member detail popups.
+Family-tree application with the original animated landing page, separate password accounts, private saved records, both-parent connections, and member detail popups.
 
-## Deploy from GitHub
+## Free GitHub Pages deployment
 
-This repository supports **GitHub → Render Web Service** deployment. The frontend and backend run together, with SQLite on a persistent disk. GitHub stores the code; the server host runs it. GitHub Pages cannot run this account/database server. [GitHub Pages documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)
+GitHub Pages hosts the website. Supabase Auth and PostgreSQL handle accounts and private records. The deployment address is **https://nikhil41-coder.github.io/E-Survey/** once Pages is enabled and deployment succeeds.
 
-1. Upload all project files to the repository root, with `package.json`, `server.mjs`, and `render.yaml` visible there. Upload the ZIP's contents, not the ZIP itself.
-2. In [Render](https://dashboard.render.com/), choose **New → Blueprint**, connect **Nikhil41-coder/E-Survey**, and choose the branch containing these files.
-3. Review the price before creating resources: this configuration uses a **paid** web service and a 1 GB persistent disk. Free ephemeral storage would lose this SQLite database on redeployment. [Persistent disk requirements](https://render.com/docs/disks)
-4. After deployment succeeds, open Render's HTTPS address. The landing page opens at `/`; create an account and begin your tree.
-5. Later pushes deploy after GitHub checks pass. Enable GitHub Actions if needed; the Render build also runs the tests.
+1. Create a separate Supabase project on a Free organization.
+2. Apply `supabase/migrations/202610140001_esurvey.sql` in that project.
+3. Set its URL and **publishable** key in `pages/config.js`. Never use a secret or service-role key.
+4. Configure authentication redirects and email delivery as described in [DEPLOYMENT.md](DEPLOYMENT.md).
+5. In GitHub **Settings → Pages → Source**, select **GitHub Actions**. Push to `main`; the Pages workflow tests, builds, and deploys.
 
-Render supplies the website origin through `RENDER_EXTERNAL_URL`. For a custom domain, set `APP_ORIGIN` to its exact HTTPS origin without a trailing slash. Keep one instance for this disk-backed database. No API keys or default passwords are needed.
+Supabase Free currently costs $0/month within its limits and pauses projects after one week of inactivity. Back up records with Export. [Supabase pricing](https://supabase.com/pricing)
 
-[Deployment settings and troubleshooting](DEPLOYMENT.md) · [Render Git-connected web services](https://render.com/docs/web-services)
+## Main files
+
+`index.html` is the GitHub Pages landing-page entry. `app.html` is the family-tree dashboard. These and their Pages scripts are generated from the original interface by `npm run build:pages`, which outputs the publishable website into `pages-dist/`.
+
+Extract the source ZIP before uploading. Keep the complete folder structure, including `.github/`, rather than uploading the ZIP itself.
 
 ## Run locally
 
-Use Node 22.13 or later in the Node 22 series. Double-click `start.cmd` on Windows or run `npm start`, then open `http://127.0.0.1:49321`. No packages need installing.
+For the cloud version, use Node 22.13 or later in the Node 22 series, run `npm ci`, then `npm run dev:pages`. It uses the configured Supabase project.
 
-## Entry files
+The original local Node/SQLite version remains available: run `npm start` or double-click `start.cmd`, then open http://127.0.0.1:49321. Its separate accounts and records stay in local `data/family.sqlite`; it does not require Supabase. [Local guide](PROJECT-GUIDE.md)
 
-`public/index.html` is the landing page. `server.mjs` starts the complete app and serves it at `/`. Full-app hosting uses `npm start` and does not require a root `index.html`.
+## Features
 
-## Features and records
+- Password account creation, sign-in, logout, and private records per account.
+- Names, places, door numbers, ages, occupations, and notes.
+- Head-relative relationships, second-parent links, and clickable detail popups.
+- Editing, search, zoom, export, cycle validation, and revision checks to prevent conflicting writes.
 
-- Account creation, sign-in, logout, protected routes, and salted password hashes.
-- Member names, places, door numbers, ages, occupations, and notes.
-- Head-relative relationships, second-parent links, shared junctions, and detail popups.
-- Editing, search, zoom, export, SQLite persistence, and revision/cycle checks.
+The repository excludes family databases, passwords, and sessions. Uploading source does not transfer existing private records.
 
-The source contains no family records, passwords, sessions, or databases. Hosting starts with an empty database. Your existing local records stay in your local application and do not transfer automatically; a private database transfer is separate from uploading source to GitHub.
+Run `npm test` and `npm run build:pages` to verify the application. GitHub runs both before deployment.
 
-Run `npm test` to verify the app. GitHub and Render run the same checks. [Full project guide](PROJECT-GUIDE.md)

@@ -3,6 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22.13.0 <23" },
-  "scripts": { "start": "node server.mjs", "test": "node --test test/*.test.mjs" }
+  "engines": {
+    "node": ">=22.13.0 <23"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "build:pages": "node scripts/prepare-pages.mjs && vite build",
+    "dev:pages": "node scripts/prepare-pages.mjs && vite --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.3"
+  },
+  "devDependencies": {
+    "vite": "^8.3.4"
+  }
 }

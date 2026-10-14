@@ -2,7 +2,7 @@
 
 A complete local web application with the original E-Survey landing page design, separate password-protected accounts, a persistent SQLite database, and an interactive family tree.
 
-This guide covers the original local workflow. This repository also includes GitHub-connected hosting: see README.md and DEPLOYMENT.md. On Render, RENDER_EXTERNAL_URL provides the default production origin; APP_ORIGIN overrides it for a custom domain.
+This guide covers the original local Node/SQLite workflow. The free GitHub Pages version uses Supabase instead; see README.md and DEPLOYMENT.md for its account, database, and deployment instructions.
 
 ## Start
 
