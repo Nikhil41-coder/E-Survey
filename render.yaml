@@ -1,0 +1,23 @@
+# Render > New > Blueprint. Creates PAID resources only when approved in Render.
+# Review current pricing before confirming service and disk creation there.
+services:
+  - type: web
+    name: e-survey-family-tree
+    runtime: node
+    plan: 0.5c-512mb
+    buildCommand: npm test
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeployTrigger: checksPass
+    numInstances: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: DB_PATH
+        value: /var/data/family.sqlite
+    disk:
+      name: family-records
+      mountPath: /var/data
+      sizeGB: 1
