@@ -218,3 +218,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# E-Survey Node source and private runtime data
+!/lib/
+!/lib/**
+data/
+*.sqlite*
+node_modules/
+.env.*
+!.env.example
+*.zip

@@ -1,0 +1,25 @@
+name: Application tests
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          package-manager-cache: false
+      - name: Verify application syntax
+        run: |
+          node --check server.mjs
+          node --check public/app.js
+          node --check public/auth.js
+      - name: Verify authentication, persistence, and family connections
+        run: npm test
