@@ -16,6 +16,7 @@ jobs:
         with:
           node-version-file: .node-version
           package-manager-cache: false
+      - run: npm ci
       - name: Verify application syntax
         run: |
           node --check server.mjs
@@ -23,3 +24,5 @@ jobs:
           node --check public/auth.js
       - name: Verify authentication, persistence, and family connections
         run: npm test
+      - name: Build the GitHub Pages application
+        run: npm run build:pages
